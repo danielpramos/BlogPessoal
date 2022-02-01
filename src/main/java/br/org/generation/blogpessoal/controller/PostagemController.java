@@ -30,15 +30,14 @@ public class PostagemController {
 	@Autowired
 	private PostagemRepository postagemRepository;
 	
-	// Pucha todos os dados da tabela Postagem.
-	@GetMapping
+	// Pucha todas as postagem da tb_postagem.
+	@GetMapping("/all")
 	public ResponseEntity <List<Postagem>> getAll(){
 		
 		return ResponseEntity.ok(postagemRepository.findAll());	
 		// select * from tb_postagensS
 	}
-	
-	
+		
 	// Chama o dado um por um pelo ID. Caso não exista retorna erro.
 	@GetMapping("/{id}")
 	public ResponseEntity <Postagem> GetById(@PathVariable Long id){
@@ -47,17 +46,6 @@ public class PostagemController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	// Chama os dados um por um pelo ID pelo modo if else.
-	@GetMapping("/opcional/{id}")
-	public ResponseEntity<Optional<Postagem>> getByOpcional(@PathVariable Long id){
-		Optional <Postagem> resposta = postagemRepository.findById(id);
-		
-		if(resposta.isPresent()) 
-			return ResponseEntity.ok(resposta);	
-		else 
-			return ResponseEntity.notFound().build();
-		
-	}
 	// Chama todos os Ids que que contem a palavra pesquisada /metodo %like%.
 	@GetMapping("/titulo/{titulo}")
 	public ResponseEntity <List<Postagem>> getByTitulo(@PathVariable String titulo){
@@ -72,16 +60,9 @@ public class PostagemController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
 	}
 	
-	// Inserindo o corpo das informações em JSON, atualiza o Dado na tabela / S	em tratamento de erro.
-	@PutMapping("/alterar")
-	public ResponseEntity <Postagem> putAlterar(@Valid @RequestBody Postagem postagem){
-		return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
-	}
-	
 	// Inserindo o corpo das informações em JSON, atualiza o Dado na tabela / Com tratamento de erro.
 	@PutMapping
 	public ResponseEntity <Postagem> putPostagem(@Valid @RequestBody Postagem postagem){
-		//return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
 		return postagemRepository.findById(postagem.getId())
 				.map(resposta -> ResponseEntity.ok(postagemRepository.save(postagem)))
 				.orElse(ResponseEntity.notFound().build());
@@ -97,5 +78,23 @@ public class PostagemController {
 				})
 				.orElse(ResponseEntity.notFound().build());
 	}
+	
+	/*// Chama os dados um por um pelo ID pelo modo if else.
+	@GetMapping("/opcional/{id}")
+	public ResponseEntity<Optional<Postagem>> getByOpcional(@PathVariable Long id){
+		Optional <Postagem> resposta = postagemRepository.findById(id);
+		
+		if(resposta.isPresent()) 
+			return ResponseEntity.ok(resposta);	
+		else 
+			return ResponseEntity.notFound().build();
+		
+	}
+	
+	// Inserindo o corpo das informações em JSON, atualiza o Dado na tabela / S	em tratamento de erro.
+	@PutMapping("/alterar")
+	public ResponseEntity <Postagem> putAlterar(@Valid @RequestBody Postagem postagem){
+		return ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem));
+	}*/
 	
 }

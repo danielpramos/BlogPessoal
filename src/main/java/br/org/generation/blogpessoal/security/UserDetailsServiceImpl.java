@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.org.generation.blogpessoal.model.Usuario;
 import br.org.generation.blogpessoal.repository.UsuarioRepository;
 
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
