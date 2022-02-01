@@ -120,5 +120,26 @@ public class UsuarioControllerTest {
 		assertEquals(HttpStatus.OK, resposta.getStatusCode());
 
 	}
+	
+	@Test
+	@Order(5)
+	@DisplayName("Id do Usuário")
+	public void deveMostrarIdUsuario() {
+
+		usuarioService.cadastrarUsuario(
+				new Usuario(0L, "Sabrina Sanches", "sabrina_sanches@email.com.br", "sabrina123", " "));
+
+		usuarioService.cadastrarUsuario(
+				new Usuario(0L, "Ricardo Marques", "ricardo_marques@email.com.br", "ricardo123", " "));
+
+		
+		ResponseEntity<String> resposta = testRestTemplate
+				.withBasicAuth("root", "root")
+				.exchange("/usuarios/2",
+				HttpMethod.GET, null, String.class);
+
+		assertEquals(HttpStatus.OK, resposta.getStatusCode());
+
+	}
 
 }
