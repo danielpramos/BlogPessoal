@@ -1,7 +1,7 @@
 package br.org.generation.blogpessoal.controller;
 
 import java.util.List;
-import java.util.Optional;
+//import java.util.Optional;
 
 import javax.validation.Valid;
 
