@@ -27,14 +27,6 @@ public class UsuarioService {
 		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 			return Optional.empty();
 		
-		int idade = calcularIdade(usuario.getDataNascimento());
-		int anos = 18 - idade;
-		
-		if ( idade < 18)
-			throw new ResponseStatusException(
-					HttpStatus.BAD_REQUEST, "Usuário é menor que 18 anos! Sua idade é de " 
-			        + idade + " anos! aguarde " + anos + " anos e Tente Novamente!;)", null);
-		
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
 		return Optional.of(usuarioRepository.save(usuario));
@@ -51,14 +43,6 @@ public class UsuarioService {
 			if ( (buscaUsuario.isPresent()) && ( buscaUsuario.get().getId() != usuario.getId()))
 				throw new ResponseStatusException(
 						HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
-			
-			int idade = calcularIdade(usuario.getDataNascimento());
-			int anos = 18 - idade;
-			
-			if ( idade < 18)
-				throw new ResponseStatusException(
-						HttpStatus.BAD_REQUEST, "Usuário é menor que 18 anos! Sua idade é de " 
-				        + idade + " anos! aguarde " + anos + " anos e Tente Novamente!;)", null);
 			
 			usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
@@ -116,9 +100,4 @@ public class UsuarioService {
 
 	}
 	
-	private int calcularIdade(LocalDate dataNascimento) {
-		
-		return Period.between(dataNascimento, LocalDate.now()).getYears();
-	}
-
 }
